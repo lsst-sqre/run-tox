@@ -17,18 +17,23 @@ inputs:
     description: "Pip requirements for installing tox plugins (e.g. tox-docker)"
     required: false
     default: ""
-  cache-key-prefix:
-    description: >
-      Prefix for the tox environment cache key. Set to distinguish from
-      other caches.
-    required: false
-    default: "tox"
   tox-posargs:
     description: >
       Additional arguments to the tox command that are available to
       environments as the "{posargs}" substitution.
     required: false
     default: ""
+  cache-key-prefix:
+    description: >
+      Prefix for the tox environment cache key. Set to distinguish from
+      other caches.
+    required: false
+    default: "tox"
+  use-cache:
+    description: >
+      Flag is enable caching of the tox environment
+    requierd: false
+    default: "true"
 
 runs:
   using: "composite"
@@ -46,6 +51,7 @@ runs:
     - name: Cache tox environments
       id: cache-tox
       uses: actions/cache@v3
+      if: fromJSON(${{ inputs.use-cache }})
       with:
         path: .tox
         # setup.cfg and pyproject.toml have versioning info that would
