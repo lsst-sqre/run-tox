@@ -9,10 +9,14 @@ inputs:
   tox-envs:
     description: "Tox environments to run (a comma-delimited list)"
     required: true
-  tox-requirements:
-    description: "Pip requirements for running tox (e.g. tox tox-docker)"
+  tox-package:
+    description: "Pip requirements for installing tox"
     required: false
     default: "tox"
+  tox-plugins:
+    description: "Pip requirements for installing tox plugins (e.g. tox-docker)"
+    required: false
+    default: ""
   cache-key-prefix:
     description: >
       Prefix for the tox environment cache key. Set to distinguish from
@@ -37,7 +41,7 @@ runs:
     - name: Python install
       run: |
         python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools ${{ inputs.tox-requirements }}
+        python -m pip install --upgrade setuptools ${{ inputs.tox-package }} ${{ inputs.tox-plugins }}
 
     - name: Cache tox environments
       id: cache-tox
