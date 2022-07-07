@@ -1,0 +1,56 @@
+name: "Build and publish to PyPI"
+description: >
+  This composite action runs tox, and includes setting up Python and caching
+  the tox environments.
+inputs:
+  python-version:
+    description: "Python version"
+    required: true
+  tox-envs:
+    description: "Tox environments to run (a comma-delimited list)"
+    required: true
+  tox-package:
+    description: "Pip requirements for installing tox"
+    required: false
+    default: "tox"
+  tox-plugins:
+    description: "Pip requirements for installing tox plugins (e.g. tox-docker)"
+    required: false
+    default: ""
+  cache-key-prefix:
+    description: >
+      Prefix for the tox environment cache key. Set to distinguish from
+      other caches.
+    required: false
+    default: "tox"
+  tox-posargs:
+    description: >
+      Additional arguments to the tox command that are available to
+      environments as the "{posargs}" substitution.
+    required: false
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Python install
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools ${{ inputs.tox-package }} ${{ inputs.tox-plugins }}
+
+    - name: Cache tox environments
+      id: cache-tox
+      uses: actions/cache@v3
+      with:
+        path: .tox
+        # setup.cfg and pyproject.toml have versioning info that would
+        # impact the tox environment.
+        key: ${{ inputs.cache-key-prefix}}-${{ inputs.python-version }}-${{ hashFiles('pyproject.toml', 'setup.cfg') }}
+
+    - name: Run tox
+      run: tox -e ${{ inputs.tox-envs }} ${{ inputs.tox-posargs }}
