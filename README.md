@@ -49,7 +49,7 @@ jobs:
 
 - `python-version` (string, required) the Python version.
 - `tox-envs` (string, required) the tox environments to run, as a comma-delimited list. Example: `typing,py` to run a type checking environment and the Python environment.
-- `tox-package` (string, optional) Pip requirement for tox itself (argument to `pip install`). Default is `tox`, but you can also include tox plugins (e.g., `tox tox-docker`).
+- `tox-package` (string, optional) Pip requirement for tox itself (argument to `pip install`). Default is `tox`, without any version constraints.
 - `tox-plugins` (string, optional) Pip requirements for any tox plugins (arguments to `pip install`). Default is an empty string, but can be set to `tox-docker` to install Docker support, for example.
 - `tox-posargs` (string, optional) Command line arguments to pass to the tox command. The positional arguments are made available as the `{posargs}` substitution to tox environments. Default is an empty string.
 - `cache-key-prefix` (string, optional) Prefix for the tox environment cache key. Set to distinguish from other caches. Default is `tox`.
