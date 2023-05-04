@@ -1,4 +1,4 @@
-name: "Build and publish to PyPI"
+name: "Run tox"
 description: >
   This composite action runs tox, and includes setting up Python and caching
   the tox environments.
