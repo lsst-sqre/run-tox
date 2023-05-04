@@ -32,7 +32,7 @@ inputs:
   use-cache:
     description: >
       Flag is enable caching of the tox environment
-    requierd: false
+    required: false
     default: "true"
 
 runs:
