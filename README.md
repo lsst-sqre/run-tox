@@ -23,7 +23,6 @@ name: Python CI
   pull_request: {}
 
 jobs:
-
   tests:
     runs-on: ubuntu-latest
     strategy:
@@ -54,6 +53,7 @@ jobs:
 - `tox-posargs` (string, optional) Command line arguments to pass to the tox command. The positional arguments are made available as the `{posargs}` substitution to tox environments. Default is an empty string.
 - `cache-key-prefix` (string, optional) Prefix for the tox environment cache key. Set to distinguish from other caches. Default is `tox`.
 - `use-cache` (boolean, optional) Flag is enable caching of the tox environment. Default is `true`.
+- `working-directory` (string, optional) Directory to run tox in. Default is the repository root.
 
 ## Outputs
 
@@ -79,7 +79,6 @@ name: Python CI
   pull_request: {}
 
 jobs:
-
   tests:
     runs-on: ubuntu-latest
     strategy:

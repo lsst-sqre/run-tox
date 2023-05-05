@@ -1,4 +1,4 @@
-name: "Build and publish to PyPI"
+name: "Run tox"
 description: >
   This composite action runs tox, and includes setting up Python and caching
   the tox environments.
@@ -32,8 +32,13 @@ inputs:
   use-cache:
     description: >
       Flag is enable caching of the tox environment
-    requierd: false
+    required: false
     default: "true"
+  working-directory:
+    description: >
+      Directory to run tox in
+    required: false
+    default: "."
 
 runs:
   using: "composite"
@@ -54,11 +59,12 @@ runs:
       uses: actions/cache@v3
       if: fromJSON(${{ inputs.use-cache }})
       with:
-        path: .tox
+        path: ${{ inputs.working-directory }}/.tox
         # setup.cfg and pyproject.toml have versioning info that would
         # impact the tox environment.
         key: ${{ inputs.cache-key-prefix}}-${{ inputs.python-version }}-${{ hashFiles('pyproject.toml', 'setup.cfg') }}
 
     - name: Run tox
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       run: tox -e ${{ inputs.tox-envs }} ${{ inputs.tox-posargs }}
