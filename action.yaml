@@ -17,6 +17,12 @@ inputs:
     description: "Pip requirements for installing tox plugins (e.g. tox-docker)"
     required: false
     default: ""
+  tox-requirements:
+    description: >-
+      Pip requirements for installing tox and any plugins. If this is set,
+      tox-package and tox-plugins are ignored.
+    required: false
+    default: ""
   tox-posargs:
     description: >
       Additional arguments to the tox command that are available to
@@ -50,9 +56,17 @@ runs:
 
     - name: Python install
       shell: bash
+      if: ${{ inputs.tox-requirements == '' }}
       run: |
         python -m pip install --upgrade pip
         python -m pip install --upgrade setuptools ${{ inputs.tox-package }} ${{ inputs.tox-plugins }}
+
+    - name: Python install
+      shell: bash
+      if: ${{ inputs.tox-requirements }}
+      run: |
+        python -m pip install --upgrade pip setuptools
+        python -m pip install --upgrade -r ${{ inputs.tox-requirements }}
 
     - name: Cache tox environments
       id: cache-tox
