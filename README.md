@@ -99,9 +99,10 @@ jobs:
           tox-plugins: "tox-docker"
 ```
 
-### Install tox and plugins from a requirements.txt file.
+### Install tox and plugins from a requirements.txt file
 
-Alternately, you can specify tox and tox plugin dependencies from a `requirements.txt` file referenced with `tox-requirements`. When you use `tox-requirements`, the `tox-package` and `tox-plugins` options are ignored:
+Alternately, you can specify tox and tox plugin dependencies from a `requirements.txt` file referenced with `tox-requirements`.
+When you use `tox-requirements`, the `tox-package` and `tox-plugins` options are ignored:
 
 ```yaml
 name: Python CI
