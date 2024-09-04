@@ -71,7 +71,7 @@ runs:
     - name: Cache tox environments
       id: cache-tox
       uses: actions/cache@v4
-      if: fromJSON(${{ inputs.use-cache }})
+      if: inputs.use-cache == 'true'
       with:
         path: ${{ inputs.working-directory }}/.tox
         # setup.cfg and pyproject.toml have versioning info that would
